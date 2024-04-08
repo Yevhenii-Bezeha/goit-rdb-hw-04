@@ -1,0 +1,19 @@
+SELECT order_details.id AS order_details_id, 
+       orders.id AS order_id, 
+       customers.id AS customer_id, 
+       products.id AS product_id, 
+       categories.id AS category_id, 
+       employees.employee_id AS employee_id, 
+       shippers.id AS shipper_id, 
+       suppliers.id AS supplier_id,
+       COUNT(*) AS row_count
+FROM order_details
+INNER JOIN orders ON order_details.order_id = orders.id
+INNER JOIN customers ON orders.customer_id = customers.id
+INNER JOIN products ON order_details.product_id = products.id
+INNER JOIN categories ON products.category_id = categories.id
+INNER JOIN employees ON orders.employee_id = employees.employee_id
+INNER JOIN shippers ON orders.shipper_id = shippers.id
+INNER JOIN suppliers ON products.supplier_id = suppliers.id
+GROUP BY order_details_id, order_id, customer_id, product_id, category_id, employee_id, shipper_id, supplier_id
+ORDER BY row_count DESC;
